@@ -33,5 +33,11 @@ public class HeroServiceImpl implements HeroService {
 		
 		return heroesDTO;
 	}
+	
+	@Override 
+	public HeroDTO postHero(HeroDTO heroDTO){
+	Hero hero = HeroDTO.setEntity(heroDTO)
+				
+	}
 
 }
