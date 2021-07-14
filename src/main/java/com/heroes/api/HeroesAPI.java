@@ -31,6 +31,12 @@ public class HeroesAPI {
 	/*
 	 * http://localhost:3333/heroes-api/heroes
 	 */
+	 
+	 @PostMapping(value="/hero")
+	 public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO){
+	 HeroDTO heroDTO = heroService.postHero(heroDTO);
+	 return new RespondeEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
+	 }
 	
 
 }
