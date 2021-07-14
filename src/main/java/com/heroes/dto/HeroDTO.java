@@ -1,12 +1,17 @@
 package com.heroes.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.heroes.entity.Hero;
 
 public class HeroDTO {
 	
+	
 	private Integer id;
+	@NotNull
 	private String name;
 	private String alias;
+	@NotNull
 	private String superpower;
 	private String weakness;
 	

@@ -9,6 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.heroes.dto.HeroDTO;
@@ -19,24 +21,33 @@ import com.heroes.service.HeroService;
 @RequestMapping(value = "/heroes-api")
 @Validated
 public class HeroesAPI {
-	
-	@Autowired 
+
+	@Autowired
 	HeroService heroService;
-	
+
 	@GetMapping(value = "/heroes")
-	public ResponseEntity<List<HeroDTO>> getHeroes(){
+	public ResponseEntity<List<HeroDTO>> getHeroes() {
 		List<HeroDTO> heroes = heroService.getHeroes();
 		return new ResponseEntity<List<HeroDTO>>(heroes, HttpStatus.OK);
 	}
 	/*
 	 * http://localhost:3333/heroes-api/heroes
 	 */
-	 
-	 @PostMapping(value="/hero")
-	 public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO){
-	 HeroDTO heroDTO = heroService.postHero(heroDTO);
-	 return new RespondeEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
-	 }
-	
+
+	@PostMapping(value = "/hero")
+	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) {
+		HeroDTO postedHeroDTO = heroService.postHero(heroDTO);
+		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
+	}
+	/*
+	 * http://localhost:3333/heroes-api/hero
+	 * 
+	 * 	{ 
+	 * 		"name": " ", 
+	 * 		"alias": " ", 
+	 * 		"superpower": " ",
+	 * 		"weakness": " " 
+	 * 	}
+	 */
 
 }
