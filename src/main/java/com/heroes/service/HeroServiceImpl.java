@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.heroes.dto.HeroDTO;
 import com.heroes.entity.Hero;
 import com.heroes.repository.HeroRepository;
+import com.heroes.repository.ImageRepository;
 
 @Service(value = "heroService")
 @Transactional
@@ -18,6 +19,9 @@ public class HeroServiceImpl implements HeroService {
 
 	@Autowired
 	private HeroRepository heroRepository;
+	
+	@Autowired
+	private ImageRepository imageRepository;
 
 	@Override
 	public List<HeroDTO> getHeroes() {
@@ -40,6 +44,23 @@ public class HeroServiceImpl implements HeroService {
 		Hero savedHero = heroRepository.save(hero);
 		heroDTO.setId(savedHero.getId());
 		return heroDTO;
+	}
+
+	@Override
+	public HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) {
+		Optional<Hero> optionalHero= heroRepository.findById(heroId);
+//		optionalHero.orElseThrow()
+		Hero hero = Hero.setEntityFromOptional(optionalHero);
+		//	UPDATE HERO ENTITY WITH HERODTO PROEPERTIES 
+		hero.setName(heroDTO.getName());
+		hero.setAlias(heroDTO.getAlias());
+		hero.setSuperpower(heroDTO.getSuperpower());
+		hero.setWeakness(heroDTO.getWeakness());
+		hero.setImages(heroDTO.getImageEntities());
+		heroRepository.save(hero);
+		
+		return heroDTO;
+		
 	}
 
 }

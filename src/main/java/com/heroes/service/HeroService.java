@@ -9,5 +9,7 @@ public interface HeroService {
 	List<HeroDTO> getHeroes();
 	
 	HeroDTO postHero(HeroDTO heroDTO);
+	
+	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO);
 
 }

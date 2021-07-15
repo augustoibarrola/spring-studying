@@ -55,5 +55,7 @@ public class ImageDTO {
 		Image image = new Image(imageDTO.getName(),imageDTO.getType(), imageDTO.getPicByte());
 		return image;
 	}
+	
+	
 
 }
