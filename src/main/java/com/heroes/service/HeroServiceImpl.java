@@ -57,10 +57,24 @@ public class HeroServiceImpl implements HeroService {
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
 		hero.setImages(heroDTO.getImageEntities());
+		
+		for(Image image : hero.getImages()){
+			if(!imageRepository.existsById(image.getId()) || image.getId() == null){
+				Image savedImage = imageRepository.save(image);
+				image.setId(savedImage.getId());
+			}
+		}
+		
+		
 		heroRepository.save(hero);
 		
 		return heroDTO;
 		
+	}
+	
+	@Override
+	public void deleteHero(Integer heroId){
+		heroRepository.deleteById(heroId);
 	}
 
 }

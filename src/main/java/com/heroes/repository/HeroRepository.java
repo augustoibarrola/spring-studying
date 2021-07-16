@@ -9,8 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import com.heroes.entity.Hero;
 
 public interface HeroRepository extends CrudRepository<Hero, Integer> {
-	
-//	Optional<List<Hero>> getAllHeroes();
 
 
 }

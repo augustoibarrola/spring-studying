@@ -11,5 +11,7 @@ public interface HeroService {
 	HeroDTO postHero(HeroDTO heroDTO);
 	
 	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO);
+	
+	void deleteHero(Integer heroId);
 
 }
