@@ -14,8 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.heroes.dto.HeroDTO;
 import com.heroes.dto.ImageDTO;
+import com.heroes.service.ImageService;
+import com.heroes.service.ImageServiceImpl;
 
 @Entity
 @Table(name="HERO")
@@ -50,6 +54,7 @@ public class Hero {
 		List<ImageDTO> imageDTOS = new ArrayList<>();
 		for(Image image: this.images) {
 			ImageDTO imageDTO = Image.setDTO(image);
+			imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
 			imageDTOS.add(imageDTO);
 		}
 		return imageDTOS;

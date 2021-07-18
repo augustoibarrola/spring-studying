@@ -13,6 +13,7 @@ public class ImageDTO {
 	private String name;
 	private String type;
 	private byte[] picByte;
+	private HeroDTO hero;
 	
 	public ImageDTO(String name, String type){
 		this.name = name;
@@ -54,6 +55,14 @@ public class ImageDTO {
 	public static Image setImage(ImageDTO imageDTO) {
 		Image image = new Image(imageDTO.getName(),imageDTO.getType(), imageDTO.getPicByte());
 		return image;
+	}
+
+	public HeroDTO getHero() {
+		return hero;
+	}
+
+	public void setHero(HeroDTO hero) {
+		this.hero = hero;
 	}
 	
 	

@@ -9,8 +9,8 @@ import com.heroes.entity.Image;
 
 public interface ImageService {
 	
-	byte[] compressBytes(byte[] data);
-	byte[] decompressBytes(byte[] data);
-	Integer postImage(MultipartFile file) throws IOException;
+//	byte[] compressBytes(byte[] data);
+//	byte[] decompressBytes(byte[] data);
+	Integer postImageToHero(MultipartFile file, String heroId) throws IOException;
 	ImageDTO getImage(String imageId);
 }

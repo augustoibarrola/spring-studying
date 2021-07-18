@@ -36,11 +36,11 @@ public class ImageAPI {
 		return new ResponseEntity<ImageDTO>(retrievedImage, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/images")
-	public ResponseEntity<Integer> uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+	@PostMapping(value = "/{heroId}/images")
+	public ResponseEntity<Integer> uploadImageToHero(@PathVariable("heroId") String heroId, @RequestParam("imageFile") MultipartFile file) throws IOException {
 		
-		Integer postedImageId = imageService.postImage(file);
-		return new ResponseEntity<Integer>(postedImageId, HttpStatus.CREATED);
+		Integer postedImageId = imageService.postImageToHero(file, heroId);
+		return new ResponseEntity<Integer> (postedImageId, HttpStatus.CREATED);
 	}
 	
 	

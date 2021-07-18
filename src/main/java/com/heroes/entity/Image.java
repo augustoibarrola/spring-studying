@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.heroes.dto.ImageDTO;
@@ -25,6 +27,9 @@ public class Image {
 	private String type;
 	@Column(name="PIC_BYTE", length=1000)
 	private byte[] picByte;
+	@ManyToOne
+	@JoinColumn(name="HERO_ID")
+	private Hero hero;
 	
 	public Image() {
 		
@@ -77,6 +82,14 @@ public class Image {
 	public static ImageDTO setDTOFromOptional(Optional<Image> image) {
 		ImageDTO imageDTO = new ImageDTO(image.get().getName(), image.get().getType());
 		return imageDTO;
+	}
+
+	public Hero getHero() {
+		return hero;
+	}
+
+	public void setHero(Hero hero) {
+		this.hero = hero;
 	}
 
 

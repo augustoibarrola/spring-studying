@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.heroes.dto.ImageDTO;
+import com.heroes.entity.Hero;
 import com.heroes.entity.Image;
+import com.heroes.repository.HeroRepository;
 import com.heroes.repository.ImageRepository;
 
 @Service(value = "imageService")
@@ -22,12 +24,15 @@ public class ImageServiceImpl implements ImageService{
 	
 	@Autowired
 	ImageRepository imageRepository;
+	
+	@Autowired
+	HeroRepository heroRepository;
 
 	/*
 	 *Compresses image bytes before storing them in the db 
 	 */
-	@Override
-	public byte[] compressBytes(byte[] data) {
+//	@Override
+	public static byte[] compressBytes(byte[] data) {
 		
 		Deflater deflater = new Deflater();
 		deflater.setInput(data);
@@ -52,9 +57,9 @@ public class ImageServiceImpl implements ImageService{
 	/*
 	 *Uncompress image bytes before storing them in the db 
 	 */
-	@Override
-	public byte[] decompressBytes(byte[] data) {
-		
+//	@Override
+	public static byte[] decompressBytes(byte[] data) {
+		 
 		Inflater inflater = new Inflater();
 		inflater.setInput(data);
 		
@@ -77,8 +82,12 @@ public class ImageServiceImpl implements ImageService{
 		}
 
 	@Override
-	public Integer postImage(MultipartFile file) throws IOException {
+	public Integer postImageToHero(MultipartFile file, String heroId) throws IOException {
+		
+		Optional<Hero> hero = heroRepository.findById(Integer.parseInt(heroId));
+		
 		Image image = new Image(file.getOriginalFilename(), file.getContentType(), compressBytes(file.getBytes()));
+		image.setHero(hero.get());
 		Image postedImage = imageRepository.save(image);
 		return postedImage.getId();
 	}

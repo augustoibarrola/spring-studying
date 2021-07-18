@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.heroes.dto.HeroDTO;
+import com.heroes.dto.ImageDTO;
 import com.heroes.entity.Hero;
+import com.heroes.entity.Image;
 import com.heroes.repository.HeroRepository;
 import com.heroes.repository.ImageRepository;
 
@@ -22,6 +24,9 @@ public class HeroServiceImpl implements HeroService {
 	
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	@Autowired
+	private ImageService imageService;
 
 	@Override
 	public List<HeroDTO> getHeroes() {
@@ -37,6 +42,22 @@ public class HeroServiceImpl implements HeroService {
 
 		return heroesDTO;
 	}
+	
+	@Override
+	public HeroDTO getHeroById(String heroId) {
+		
+		Optional<Hero> optionalHero = heroRepository.findById(Integer.parseInt(heroId));
+		Hero hero = Hero.setEntityFromOptional(optionalHero);
+		
+		//set image IDs if present in DB
+		
+		//set hero 
+		
+		HeroDTO heroDTO = Hero.setDTO(hero);
+		
+		return heroDTO;
+		
+	}
 
 	@Override
 	public HeroDTO postHero(HeroDTO heroDTO) {
@@ -49,24 +70,38 @@ public class HeroServiceImpl implements HeroService {
 	@Override
 	public HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) {
 		Optional<Hero> optionalHero= heroRepository.findById(heroId);
-//		optionalHero.orElseThrow()
 		Hero hero = Hero.setEntityFromOptional(optionalHero);
-		//	UPDATE HERO ENTITY WITH HERODTO PROEPERTIES 
 		hero.setName(heroDTO.getName());
 		hero.setAlias(heroDTO.getAlias());
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
-		hero.setImages(heroDTO.getImageEntities());
 		
-		for(Image image : hero.getImages()){
-			if(!imageRepository.existsById(image.getId()) || image.getId() == null){
-				Image savedImage = imageRepository.save(image);
-				image.setId(savedImage.getId());
-			}
-		}
+		//images below are COMPRESSED from db
+		//need to iterate over images from db
+//		List<Image> compressedImagesFromDB = hero.getImages();
+//		List<ImageDTO> decompressedImagesToFE = new ArrayList<>();
+//		compressedImagesFromDB.forEach(imageFromDB -> {
+//			for(ImageDTO imageDTO:heroDTO.getImages()) {
+//				if(imageFromDB.getId().equals(imageDTO.getId())) {
+//					imageDTO.setPicByte(ImageServiceImpl.decompressBytes(imageFromDB.getPicByte()));
+//				}
+//			}
+//		});
 		
 		
 		heroRepository.save(hero);
+		List<ImageDTO> decompressedImages = new ArrayList<>();
+		
+		hero.getImages().forEach(image -> {
+			//decompress images
+			ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
+			imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
+			imageDTO.setId(image.getId());
+			decompressedImages.add(imageDTO);
+//			image.setPicByte(ImageServiceImpl.decompressBytes(image.getBytes()));
+			//set them to heroDTO's images
+		});
+		heroDTO.setImages(decompressedImages);
 		
 		return heroDTO;
 		

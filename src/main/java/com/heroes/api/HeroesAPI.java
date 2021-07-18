@@ -1,5 +1,6 @@
 package com.heroes.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.heroes.dto.HeroDTO;
+import com.heroes.dto.*;
 import com.heroes.service.HeroService;
 
 @CrossOrigin
@@ -36,6 +37,16 @@ public class HeroesAPI {
 	/*
 	 * http://localhost:3333/heroes-api/heroes
 	 */
+	
+	@GetMapping(value="/heroes/{heroId}")
+	public ResponseEntity<List> getHero(@PathVariable("heroId") String heroId){
+		HeroDTO heroDTO = heroService.getHeroById(heroId);
+		List<ImageDTO> images = heroDTO.getImages();
+		List test = new ArrayList();
+		test.add(heroDTO);
+		test.add(images);
+		return new ResponseEntity<List>(test, HttpStatus.OK);
+	}
 
 	@PostMapping(value = "/hero")
 	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) {
@@ -54,7 +65,9 @@ public class HeroesAPI {
 	 */
 	
 	@PutMapping(value="/hero/{id}")
-	public ResponseEntity<HeroDTO> updateHero(@PathVariable String id, @RequestBody HeroDTO hero ){
+	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ){
+		System.out.println(id);
+		System.out.println(hero.getImages());
 		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), hero);
 		return new ResponseEntity<HeroDTO>(updatedHero, HttpStatus.OK);
 		
@@ -64,7 +77,7 @@ public class HeroesAPI {
 	public ResponseEntity<String> deleteHero(@PathVariable String id){
 		heroService.deleteHero(Integer.parseInt(id));
 		String successMessage = "Hero Successfully Deleted";
-		return new ResponseEntity<String>(successMessage, HttpStatus.DELETED);
+		return new ResponseEntity<String>(successMessage, HttpStatus.OK);
 	}
 
 }
