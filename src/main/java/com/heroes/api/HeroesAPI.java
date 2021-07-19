@@ -48,7 +48,7 @@ public class HeroesAPI {
 		return new ResponseEntity<List>(test, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/hero")
+	@PostMapping(value = "/heroes")
 	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) {
 		HeroDTO postedHeroDTO = heroService.postHero(heroDTO);
 		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);

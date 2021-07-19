@@ -37,15 +37,6 @@ public class HeroDTO {
 	public void setImages(List<ImageDTO> images) {
 		this.images = images;
 	}
-	
-	public List<Image> getImageEntities(){
-		List<Image> images = new ArrayList<>();
-		for(ImageDTO imageDTO: this.images) {
-			Image image = ImageDTO.setImage(imageDTO);
-			images.add(image);
-		}
-		return images;
-	}
 
 	public Integer getId() {
 		return id;
@@ -94,10 +85,16 @@ public class HeroDTO {
 		hero.setAlias(heroDTO.getAlias());
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
-		hero.setImages(heroDTO.getImageEntities());
+		if (heroDTO.getImages() != null) {
+			List<Image> images = new ArrayList<>();
+			for (ImageDTO imageDTO : heroDTO.getImages()) {
+				Image image = ImageDTO.setImage(imageDTO);
+				images.add(image);
+			}
+			hero.setImages(images);
+		}
 
 		return hero;
 	}
-
 
 }

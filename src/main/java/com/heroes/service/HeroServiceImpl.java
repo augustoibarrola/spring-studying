@@ -51,6 +51,7 @@ public class HeroServiceImpl implements HeroService {
 		
 		//set image IDs if present in DB
 		
+		
 		//set hero 
 		
 		HeroDTO heroDTO = Hero.setDTO(hero);
@@ -62,8 +63,12 @@ public class HeroServiceImpl implements HeroService {
 	@Override
 	public HeroDTO postHero(HeroDTO heroDTO) {
 		Hero hero = HeroDTO.setEntity(heroDTO);
+		
 		Hero savedHero = heroRepository.save(hero);
 		heroDTO.setId(savedHero.getId());
+		
+		HeroDTO returnedSavedHero = Hero.setDTO(savedHero);
+		
 		return heroDTO;
 	}
 

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.heroes.dto.ImageDTO;
+import com.heroes.service.ImageServiceImpl;
 
 @Entity
 @Table(name="IMAGE")
@@ -75,7 +76,7 @@ public class Image {
 	
 	public static ImageDTO setDTO(Image image) {
 		ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
-		imageDTO.setPicByte(image.getPicByte());
+		imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
 		return imageDTO;
 	}
 	

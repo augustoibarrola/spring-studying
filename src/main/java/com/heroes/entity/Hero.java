@@ -98,7 +98,17 @@ public class Hero {
 		heroDTO.setAlias(hero.getAlias());
 		heroDTO.setSuperpower(hero.getSuperpower());
 		heroDTO.setWeakness(hero.getWeakness());
-		heroDTO.setImages(hero.getImageDTOs());
+			
+		if(hero.getImages()!=null) {
+			
+		List<ImageDTO> imageDTOS = new ArrayList<>();
+		
+		for(Image image: hero.getImages()) {
+			ImageDTO imageDTO = Image.setDTO(image);
+			imageDTOS.add(imageDTO);
+		}
+		heroDTO.setImages(imageDTOS);
+		}
 		
 		return heroDTO;
 	}

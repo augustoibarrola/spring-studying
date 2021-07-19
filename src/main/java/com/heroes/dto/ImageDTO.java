@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.heroes.entity.Image;
+import com.heroes.service.ImageServiceImpl;
 
 public class ImageDTO {
 	
@@ -53,7 +54,7 @@ public class ImageDTO {
 	}
 	
 	public static Image setImage(ImageDTO imageDTO) {
-		Image image = new Image(imageDTO.getName(),imageDTO.getType(), imageDTO.getPicByte());
+		Image image = new Image(imageDTO.getName(),imageDTO.getType(), ImageServiceImpl.compressBytes(imageDTO.getPicByte()));
 		return image;
 	}
 
