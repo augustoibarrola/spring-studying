@@ -81,6 +81,7 @@ public class HeroDTO {
 		heroDTO.setAlias(hero.getAlias());
 		heroDTO.setSuperpower(hero.getSuperpower());
 		heroDTO.setWeakness(hero.getWeakness());
+		heroDTO.setDescription(hero.getDescription());
 		
 		return heroDTO;
 	}

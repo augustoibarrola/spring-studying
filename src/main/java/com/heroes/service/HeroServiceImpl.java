@@ -33,12 +33,10 @@ public class HeroServiceImpl implements HeroService {
 	@Override
 	public List<HeroDTO> getHeroes() {
 
-//		Optional<List<Hero>> observableHeroes = heroRepository.getAllHeroes();
-//		observableHeroes.orElseThrow(() -> new HeroException())
 		Iterable<Hero> heroes = heroRepository.findAll();
 		List<HeroDTO> heroesDTO = new ArrayList<>();
 		for (Hero hero : heroes) {
-			HeroDTO heroDTO = Hero.setDTO(hero);
+			HeroDTO heroDTO = HeroDTO.setDTO(hero);
 			heroesDTO.add(heroDTO);
 		}
 
@@ -50,32 +48,17 @@ public class HeroServiceImpl implements HeroService {
 		
 		Optional<Hero> optionalHero = heroRepository.findById(Integer.parseInt(heroId));
 		Hero hero = Hero.setEntityFromOptional(optionalHero);
-		
-		//set image IDs if present in DB
-		
-		
-		//set hero 
-		
-		HeroDTO heroDTO = Hero.setDTO(hero);
-		List<ImageDTO> testImages = new ArrayList<>();
-		if (optionalHero.get().getImages()!=null) {
-		testImages.add(imageService.getImage(Integer.toString(optionalHero.get().getImages().get(0).getId())));		
-		heroDTO.setImages(testImages);
-		}
-		
+		HeroDTO heroDTO = HeroDTO.setDTO(hero);
 		return heroDTO;
 		
 	}
 
 	@Override
-	public HeroDTO postHero(HeroDTO heroDTO, MultipartFile imageFile) throws IOException {
-		Hero hero = HeroDTO.setEntity(heroDTO);
+	public HeroDTO postHero(HeroDTO heroDTO){
+		Hero hero = Hero.setEntity(heroDTO);
 		
-		Hero savedHero = heroRepository.save(hero);
-		heroDTO.setId(savedHero.getId());
-		Integer postedImageId = imageService.postImageToHero(imageFile, Integer.toString(heroDTO.getId()) );
-		HeroDTO returnedSavedHero = Hero.setDTO(savedHero);
-		
+		Hero postedHero = heroRepository.save(hero);
+		heroDTO.setId(postedHero.getId());		
 		
 		return heroDTO;
 	}
@@ -88,35 +71,10 @@ public class HeroServiceImpl implements HeroService {
 		hero.setAlias(heroDTO.getAlias());
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
-		
-		//images below are COMPRESSED from db
-		//need to iterate over images from db
-//		List<Image> compressedImagesFromDB = hero.getImages();
-//		List<ImageDTO> decompressedImagesToFE = new ArrayList<>();
-//		compressedImagesFromDB.forEach(imageFromDB -> {
-//			for(ImageDTO imageDTO:heroDTO.getImages()) {
-//				if(imageFromDB.getId().equals(imageDTO.getId())) {
-//					imageDTO.setPicByte(ImageServiceImpl.decompressBytes(imageFromDB.getPicByte()));
-//				}
-//			}
-//		});
-		imageService.postImageToHeroTest(heroDTO.getImages().get(0), hero.getId());
+		hero.setDescription(heroDTO.getDescription());
+
 		heroRepository.save(hero);
-		if(hero.getImages()!=null) {
-			
-		List<ImageDTO> decompressedImages = new ArrayList<>();
-		hero.getImages().forEach(image -> {
-			//decompress images
-			ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
-			imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
-			imageDTO.setId(image.getId());
-			decompressedImages.add(imageDTO);
-//			image.setPicByte(ImageServiceImpl.decompressBytes(image.getBytes()));
-			//set them to heroDTO's images
-		});
-		heroDTO.setImages(decompressedImages);
-		}
-		
+
 		return heroDTO;
 		
 	}

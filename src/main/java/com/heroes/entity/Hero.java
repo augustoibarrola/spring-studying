@@ -98,11 +98,14 @@ public class Hero {
 	}
 	public static Hero setEntity(HeroDTO heroDTO) {
 		Hero hero = new Hero();
-		hero.setId(heroDTO.getId());
+		if(heroDTO.getId()!=null) {
+			hero.setId(heroDTO.getId());			
+		}
 		hero.setName(heroDTO.getName());
 		hero.setAlias(heroDTO.getAlias());
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
+		hero.setDescription(heroDTO.getDescription());
 
 		return hero;
 	}
@@ -113,7 +116,8 @@ public class Hero {
 		hero.setName(optionalHero.get().getName());
 		hero.setAlias(optionalHero.get().getAlias());
 		hero.setSuperpower(optionalHero.get().getSuperpower());
-		hero.setWeakness(optionalHero.get().getWeakness());		
+		hero.setWeakness(optionalHero.get().getWeakness());	
+		hero.setDescription(optionalHero.get().getDescription());
 		return hero;
 	}
 	

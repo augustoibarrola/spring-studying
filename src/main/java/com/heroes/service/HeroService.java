@@ -18,6 +18,8 @@ public interface HeroService {
 	
 	void deleteHero(Integer heroId);
 
-	HeroDTO postHero(HeroDTO heroDTO, MultipartFile imageFile) throws IOException;
+//	HeroDTO postHero(HeroDTO heroDTO, MultipartFile imageFile) throws IOException;
+
+	HeroDTO postHero(HeroDTO heroDTO);
 
 }

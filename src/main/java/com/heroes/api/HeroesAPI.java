@@ -42,19 +42,14 @@ public class HeroesAPI {
 	 */
 	
 	@GetMapping(value="/heroes/{heroId}")
-	public ResponseEntity<List> getHero(@PathVariable("heroId") String heroId){
+	public ResponseEntity<HeroDTO> getHero(@PathVariable("heroId") String heroId){
 		HeroDTO heroDTO = heroService.getHeroById(heroId);
-		List<ImageDTO> images = heroDTO.getImages();
-		List test = new ArrayList();
-		test.add(heroDTO);
-		test.add(images);
-		return new ResponseEntity<List>(test, HttpStatus.OK);
+		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/heroes")
-	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO, @RequestParam("imageFile") MultipartFile file) throws IOException {
-		System.out.println(heroDTO);
-		HeroDTO postedHeroDTO = heroService.postHero(heroDTO, file);
+	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) throws IOException {
+		HeroDTO postedHeroDTO = heroService.postHero(heroDTO);
 		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
 	}
 	/*
@@ -70,8 +65,6 @@ public class HeroesAPI {
 	
 	@PutMapping(value="/hero/{id}")
 	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ) throws NumberFormatException, IOException{
-		System.out.println(id);
-		System.out.println(hero.getImages());
 		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), hero);
 		return new ResponseEntity<HeroDTO>(updatedHero, HttpStatus.OK);
 		

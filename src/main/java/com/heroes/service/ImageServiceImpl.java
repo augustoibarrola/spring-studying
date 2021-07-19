@@ -107,7 +107,7 @@ public class ImageServiceImpl implements ImageService{
 		Integer imageIdInteger = Integer.parseInt(imageId);
 		Optional<Image> retrievedImage = imageRepository.findById(imageIdInteger);
 		
-		ImageDTO imageDTO = Image.setDTOFromOptional(retrievedImage);
+		ImageDTO imageDTO = ImageDTO.setDTOFromOptional(retrievedImage);
 		imageDTO.setPicByte(decompressBytes(retrievedImage.get().getPicByte()));
 		imageDTO.setId(retrievedImage.get().getId());
 		
