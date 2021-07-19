@@ -99,16 +99,16 @@ public class Hero {
 		heroDTO.setSuperpower(hero.getSuperpower());
 		heroDTO.setWeakness(hero.getWeakness());
 			
-		if(hero.getImages()!=null) {
-			
-		List<ImageDTO> imageDTOS = new ArrayList<>();
-		
-		for(Image image: hero.getImages()) {
-			ImageDTO imageDTO = Image.setDTO(image);
-			imageDTOS.add(imageDTO);
-		}
-		heroDTO.setImages(imageDTOS);
-		}
+//		if(hero.getImages()!=null) {
+//			
+//		List<ImageDTO> imageDTOS = new ArrayList<>();
+//		
+//		for(Image image: hero.getImages()) {
+//			ImageDTO imageDTO = Image.setDTO(image);
+//			imageDTOS.add(imageDTO);
+//		}
+//		heroDTO.setImages(imageDTOS);
+//		}
 		
 		return heroDTO;
 	}
@@ -120,7 +120,7 @@ public class Hero {
 		hero.setAlias(optionalHero.get().getAlias());
 		hero.setSuperpower(optionalHero.get().getSuperpower());
 		hero.setWeakness(optionalHero.get().getWeakness());
-		hero.setImages(optionalHero.get().getImages());
+//		hero.setImages(optionalHero.get().getImages());
 		
 		return hero;
 	}

@@ -2,6 +2,7 @@ package com.heroes.entity;
 
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Image {
 	private String type;
 	@Column(name="PIC_BYTE", length=1000)
 	private byte[] picByte;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="HERO_ID")
 	private Hero hero;
 	

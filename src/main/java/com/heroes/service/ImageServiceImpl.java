@@ -91,6 +91,16 @@ public class ImageServiceImpl implements ImageService{
 		Image postedImage = imageRepository.save(image);
 		return postedImage.getId();
 	}
+	@Override
+	public Integer postImageToHeroTest(ImageDTO imageDTO, Integer heroId) throws IOException {
+		
+		Optional<Hero> hero = heroRepository.findById(heroId);
+		
+		Image image = new Image(imageDTO.getName(), imageDTO.getType(), compressBytes(imageDTO.getPicByte()));
+		image.setHero(hero.get());
+		Image postedImage = imageRepository.save(image);
+		return postedImage.getId();
+	}
 
 	@Override
 	public ImageDTO getImage(String imageId) {

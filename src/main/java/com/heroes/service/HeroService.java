@@ -1,5 +1,6 @@
 package com.heroes.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.heroes.dto.HeroDTO;
@@ -13,7 +14,7 @@ public interface HeroService {
 	
 	HeroDTO postHero(HeroDTO heroDTO);
 	
-	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO);
+	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) throws IOException;
 	
 	void deleteHero(Integer heroId);
 

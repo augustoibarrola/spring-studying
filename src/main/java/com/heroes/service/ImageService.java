@@ -12,5 +12,7 @@ public interface ImageService {
 //	byte[] compressBytes(byte[] data);
 //	byte[] decompressBytes(byte[] data);
 	Integer postImageToHero(MultipartFile file, String heroId) throws IOException;
+	public Integer postImageToHeroTest(ImageDTO imageDTO, Integer heroId) throws IOException;
+
 	ImageDTO getImage(String imageId);
 }

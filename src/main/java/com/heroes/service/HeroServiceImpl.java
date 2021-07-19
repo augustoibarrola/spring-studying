@@ -1,5 +1,6 @@
 package com.heroes.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,11 @@ public class HeroServiceImpl implements HeroService {
 		//set hero 
 		
 		HeroDTO heroDTO = Hero.setDTO(hero);
+		List<ImageDTO> testImages = new ArrayList<>();
+		if (optionalHero.get().getImages()!=null) {
+		testImages.add(imageService.getImage(Integer.toString(optionalHero.get().getImages().get(0).getId())));		
+		heroDTO.setImages(testImages);
+		}
 		
 		return heroDTO;
 		
@@ -73,7 +79,7 @@ public class HeroServiceImpl implements HeroService {
 	}
 
 	@Override
-	public HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) {
+	public HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) throws IOException {
 		Optional<Hero> optionalHero= heroRepository.findById(heroId);
 		Hero hero = Hero.setEntityFromOptional(optionalHero);
 		hero.setName(heroDTO.getName());
@@ -92,11 +98,11 @@ public class HeroServiceImpl implements HeroService {
 //				}
 //			}
 //		});
-		
-		
+		imageService.postImageToHeroTest(heroDTO.getImages().get(0), hero.getId());
 		heroRepository.save(hero);
+		if(hero.getImages()!=null) {
+			
 		List<ImageDTO> decompressedImages = new ArrayList<>();
-		
 		hero.getImages().forEach(image -> {
 			//decompress images
 			ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
@@ -107,6 +113,7 @@ public class HeroServiceImpl implements HeroService {
 			//set them to heroDTO's images
 		});
 		heroDTO.setImages(decompressedImages);
+		}
 		
 		return heroDTO;
 		

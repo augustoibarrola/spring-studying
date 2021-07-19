@@ -1,5 +1,6 @@
 package com.heroes.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class HeroesAPI {
 	 */
 	
 	@PutMapping(value="/hero/{id}")
-	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ){
+	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ) throws NumberFormatException, IOException{
 		System.out.println(id);
 		System.out.println(hero.getImages());
 		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), hero);
