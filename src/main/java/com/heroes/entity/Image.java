@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.heroes.dto.ImageDTO;
@@ -29,8 +30,7 @@ public class Image {
 	private String type;
 	@Column(name="PIC_BYTE", length=1000)
 	private byte[] picByte;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="HERO_ID")
+	@OneToOne
 	private Hero hero;
 	
 	public Image() {
@@ -75,17 +75,6 @@ public class Image {
 		this.picByte = picByte;
 	}
 	
-	public static ImageDTO setDTO(Image image) {
-		ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
-		imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
-		return imageDTO;
-	}
-	
-	public static ImageDTO setDTOFromOptional(Optional<Image> image) {
-		ImageDTO imageDTO = new ImageDTO(image.get().getName(), image.get().getType());
-		return imageDTO;
-	}
-
 	public Hero getHero() {
 		return hero;
 	}
@@ -93,6 +82,12 @@ public class Image {
 	public void setHero(Hero hero) {
 		this.hero = hero;
 	}
+
+	public static Image setImage(ImageDTO imageDTO) {
+		Image image = new Image(imageDTO.getName(),imageDTO.getType(), ImageServiceImpl.compressBytes(imageDTO.getPicByte()));
+		return image;
+	}
+
 
 
 }

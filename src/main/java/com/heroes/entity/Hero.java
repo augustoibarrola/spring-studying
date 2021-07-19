@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,31 +34,29 @@ public class Hero {
 	private String name;
 	@Column(name="ALIAS")
 	private String alias;
-	
-
 	@Column(name="SUPERPOWER")
 	private String superpower;
 	@Column(name="WEAKNESS")
 	private String weakness;
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="HERO_ID")
-	private List<Image> images;
+	@Column(name="DESCRIPTION")
+	private String description;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="PROFILE_PICTURE_ID", referencedColumnName="ID")
+	private Image  profilePicture;
 	
-	public List<Image> getImages() {
-		return images;
+	public Image getProfilePicture() {
+		return profilePicture;
 	}
-	public void setImages(List<Image> images) {
-		this.images = images;
+	public void setProfilePicture(Image profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 	
-	public List<ImageDTO> getImageDTOs(){
-		List<ImageDTO> imageDTOS = new ArrayList<>();
-		for(Image image: this.images) {
-			ImageDTO imageDTO = Image.setDTO(image);
+	public ImageDTO getProfilePictureDTO(Image image){
+
+			ImageDTO imageDTO = ImageDTO.setDTO(image);
 			imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
-			imageDTOS.add(imageDTO);
-		}
-		return imageDTOS;
+		
+			return imageDTO;
 	}
 	
 	public Integer getId() {
@@ -91,26 +90,21 @@ public class Hero {
 		this.weakness = weakness;
 	}
 	
-	public static HeroDTO setDTO(Hero hero) {
-		HeroDTO heroDTO = new HeroDTO();
-		heroDTO.setId(hero.getId());
-		heroDTO.setName(hero.getName());
-		heroDTO.setAlias(hero.getAlias());
-		heroDTO.setSuperpower(hero.getSuperpower());
-		heroDTO.setWeakness(hero.getWeakness());
-			
-//		if(hero.getImages()!=null) {
-//			
-//		List<ImageDTO> imageDTOS = new ArrayList<>();
-//		
-//		for(Image image: hero.getImages()) {
-//			ImageDTO imageDTO = Image.setDTO(image);
-//			imageDTOS.add(imageDTO);
-//		}
-//		heroDTO.setImages(imageDTOS);
-//		}
-		
-		return heroDTO;
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public static Hero setEntity(HeroDTO heroDTO) {
+		Hero hero = new Hero();
+		hero.setId(heroDTO.getId());
+		hero.setName(heroDTO.getName());
+		hero.setAlias(heroDTO.getAlias());
+		hero.setSuperpower(heroDTO.getSuperpower());
+		hero.setWeakness(heroDTO.getWeakness());
+
+		return hero;
 	}
 	
 	public static Hero setEntityFromOptional(Optional<Hero> optionalHero) {
@@ -119,9 +113,7 @@ public class Hero {
 		hero.setName(optionalHero.get().getName());
 		hero.setAlias(optionalHero.get().getAlias());
 		hero.setSuperpower(optionalHero.get().getSuperpower());
-		hero.setWeakness(optionalHero.get().getWeakness());
-//		hero.setImages(optionalHero.get().getImages());
-		
+		hero.setWeakness(optionalHero.get().getWeakness());		
 		return hero;
 	}
 	

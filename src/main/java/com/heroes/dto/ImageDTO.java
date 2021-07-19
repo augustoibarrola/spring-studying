@@ -1,9 +1,6 @@
 package com.heroes.dto;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Optional;
 
 import com.heroes.entity.Image;
 import com.heroes.service.ImageServiceImpl;
@@ -14,7 +11,7 @@ public class ImageDTO {
 	private String name;
 	private String type;
 	private byte[] picByte;
-	private HeroDTO hero;
+	private HeroDTO heroDTO;
 	
 	public ImageDTO(String name, String type){
 		this.name = name;
@@ -53,19 +50,24 @@ public class ImageDTO {
 		this.picByte = picByte;
 	}
 	
-	public static Image setImage(ImageDTO imageDTO) {
-		Image image = new Image(imageDTO.getName(),imageDTO.getType(), ImageServiceImpl.compressBytes(imageDTO.getPicByte()));
-		return image;
+	public HeroDTO getHeroDTO() {
+		return heroDTO;
 	}
 
-	public HeroDTO getHero() {
-		return hero;
+	public void setHeroDTO(HeroDTO heroDTO) {
+		this.heroDTO = heroDTO;
+	}
+	
+	public static ImageDTO setDTO(Image image) {
+		ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
+		imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
+		return imageDTO;
+	}
+	
+	public static ImageDTO setDTOFromOptional(Optional<Image> image) {
+		ImageDTO imageDTO = new ImageDTO(image.get().getName(), image.get().getType());
+		return imageDTO;
 	}
 
-	public void setHero(HeroDTO hero) {
-		this.hero = hero;
-	}
-	
-	
 
 }

@@ -11,16 +11,12 @@ import com.heroes.entity.Image;
 public class HeroDTO {
 
 	private Integer id;
-	@NotNull
 	private String name;
 	private String alias;
-	@NotNull
 	private String superpower;
 	private String weakness;
-//	  description:string;
 	private String description;
-//	  images: Image[];
-	private List<ImageDTO> images;
+	private ImageDTO profilePicture;
 
 	public String getDescription() {
 		return description;
@@ -30,12 +26,12 @@ public class HeroDTO {
 		this.description = description;
 	}
 
-	public List<ImageDTO> getImages() {
-		return images;
+	public ImageDTO getProfilePicture() {
+		return profilePicture;
 	}
 
-	public void setImages(List<ImageDTO> images) {
-		this.images = images;
+	public void setProfilePicture(ImageDTO images) {
+		this.profilePicture = images;
 	}
 
 	public Integer getId() {
@@ -77,24 +73,17 @@ public class HeroDTO {
 	public void setWeakness(String weakness) {
 		this.weakness = weakness;
 	}
-
-	public static Hero setEntity(HeroDTO heroDTO) {
-		Hero hero = new Hero();
-		hero.setId(heroDTO.getId());
-		hero.setName(heroDTO.getName());
-		hero.setAlias(heroDTO.getAlias());
-		hero.setSuperpower(heroDTO.getSuperpower());
-		hero.setWeakness(heroDTO.getWeakness());
-		if (heroDTO.getImages() != null) {
-			List<Image> images = new ArrayList<>();
-			for (ImageDTO imageDTO : heroDTO.getImages()) {
-				Image image = ImageDTO.setImage(imageDTO);
-				images.add(image);
-			}
-			hero.setImages(images);
-		}
-
-		return hero;
+	
+	public static HeroDTO setDTO(Hero hero) {
+		HeroDTO heroDTO = new HeroDTO();
+		heroDTO.setId(hero.getId());
+		heroDTO.setName(hero.getName());
+		heroDTO.setAlias(hero.getAlias());
+		heroDTO.setSuperpower(hero.getSuperpower());
+		heroDTO.setWeakness(hero.getWeakness());
+		
+		return heroDTO;
 	}
+
 
 }
