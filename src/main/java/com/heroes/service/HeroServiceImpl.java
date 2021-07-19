@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.heroes.dto.HeroDTO;
 import com.heroes.dto.ImageDTO;
@@ -67,13 +68,14 @@ public class HeroServiceImpl implements HeroService {
 	}
 
 	@Override
-	public HeroDTO postHero(HeroDTO heroDTO) {
+	public HeroDTO postHero(HeroDTO heroDTO, MultipartFile imageFile) throws IOException {
 		Hero hero = HeroDTO.setEntity(heroDTO);
 		
 		Hero savedHero = heroRepository.save(hero);
 		heroDTO.setId(savedHero.getId());
-		
+		Integer postedImageId = imageService.postImageToHero(imageFile, Integer.toString(heroDTO.getId()) );
 		HeroDTO returnedSavedHero = Hero.setDTO(savedHero);
+		
 		
 		return heroDTO;
 	}

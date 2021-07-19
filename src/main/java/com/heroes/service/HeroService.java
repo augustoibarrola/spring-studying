@@ -3,6 +3,8 @@ package com.heroes.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.heroes.dto.HeroDTO;
 
 public interface HeroService {
@@ -11,11 +13,11 @@ public interface HeroService {
 	
 	HeroDTO getHeroById(String heroId);
 
-	
-	HeroDTO postHero(HeroDTO heroDTO);
-	
+		
 	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) throws IOException;
 	
 	void deleteHero(Integer heroId);
+
+	HeroDTO postHero(HeroDTO heroDTO, MultipartFile imageFile) throws IOException;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.heroes.dto.*;
 import com.heroes.service.HeroService;
@@ -50,8 +52,9 @@ public class HeroesAPI {
 	}
 
 	@PostMapping(value = "/heroes")
-	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) {
-		HeroDTO postedHeroDTO = heroService.postHero(heroDTO);
+	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO, @RequestParam("imageFile") MultipartFile file) throws IOException {
+		System.out.println(heroDTO);
+		HeroDTO postedHeroDTO = heroService.postHero(heroDTO, file);
 		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
 	}
 	/*
