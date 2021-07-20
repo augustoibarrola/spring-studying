@@ -50,7 +50,7 @@ public class HeroesAPI {
 	@PostMapping(value = "/heroes")
 	public ResponseEntity<HeroDTO> postHero(@RequestBody HeroDTO heroDTO) throws IOException {
 		HeroDTO postedHeroDTO = heroService.postHero(heroDTO);
-		return new ResponseEntity<HeroDTO>(heroDTO, HttpStatus.CREATED);
+		return new ResponseEntity<HeroDTO>(postedHeroDTO, HttpStatus.CREATED);
 	}
 	/*
 	 * http://localhost:3333/heroes-api/hero
@@ -64,8 +64,9 @@ public class HeroesAPI {
 	 */
 	
 	@PutMapping(value="/hero/{id}")
-	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ) throws NumberFormatException, IOException{
-		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), hero);
+	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO heroDTO) throws NumberFormatException, IOException{
+
+		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), heroDTO);
 		
 		return new ResponseEntity<HeroDTO>(updatedHero, HttpStatus.OK);
 		
