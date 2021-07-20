@@ -60,7 +60,6 @@ public class ImageDTO {
 	
 	public static ImageDTO setDTO(Image image) {
 		ImageDTO imageDTO = new ImageDTO(image.getName(), image.getType());
-		imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
 		return imageDTO;
 	}
 	

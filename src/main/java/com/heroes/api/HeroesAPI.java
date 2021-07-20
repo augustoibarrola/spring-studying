@@ -66,6 +66,7 @@ public class HeroesAPI {
 	@PutMapping(value="/hero/{id}")
 	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO hero ) throws NumberFormatException, IOException{
 		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), hero);
+		
 		return new ResponseEntity<HeroDTO>(updatedHero, HttpStatus.OK);
 		
 	}

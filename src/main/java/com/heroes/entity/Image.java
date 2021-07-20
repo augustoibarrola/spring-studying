@@ -30,6 +30,7 @@ public class Image {
 	private String type;
 	@Column(name="PIC_BYTE", length=1000)
 	private byte[] picByte;
+//	@OneToOne(mappedBy="profilePicture")
 	@OneToOne
 	private Hero hero;
 	

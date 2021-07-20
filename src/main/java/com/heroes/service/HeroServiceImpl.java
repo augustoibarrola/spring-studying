@@ -49,6 +49,19 @@ public class HeroServiceImpl implements HeroService {
 		Optional<Hero> optionalHero = heroRepository.findById(Integer.parseInt(heroId));
 		Hero hero = Hero.setEntityFromOptional(optionalHero);
 		HeroDTO heroDTO = HeroDTO.setDTO(hero);
+		
+		if(optionalHero.get().getProfilePicture()!=null) {
+			Optional<List<Image>> optionalImages = imageRepository.findAllByHero(hero);
+			if(optionalImages !=null) {
+				Optional<Image> image = imageRepository.findById(optionalImages.get().get(0).getId());
+				ImageDTO imageDTO = ImageDTO.setDTOFromOptional(image);
+				imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.get().getPicByte()));
+				imageDTO.setId(image.get().getId());
+				heroDTO.setProfilePicture(imageDTO);
+			}
+			System.out.println(heroDTO.getProfilePicture().getId());
+		}
+		System.out.println(heroDTO.getId());
 		return heroDTO;
 		
 	}
@@ -72,6 +85,7 @@ public class HeroServiceImpl implements HeroService {
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
 		hero.setDescription(heroDTO.getDescription());
+		System.out.println(heroDTO.getProfilePicture());
 
 		heroRepository.save(hero);
 

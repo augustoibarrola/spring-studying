@@ -42,7 +42,7 @@ public class Hero {
 	private String description;
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PROFILE_PICTURE_ID", referencedColumnName="ID")
-	private Image  profilePicture;
+	private Image profilePicture;
 	
 	public Image getProfilePicture() {
 		return profilePicture;

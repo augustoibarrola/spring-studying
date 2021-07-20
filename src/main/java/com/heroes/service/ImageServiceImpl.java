@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.heroes.dto.HeroDTO;
 import com.heroes.dto.ImageDTO;
 import com.heroes.entity.Hero;
 import com.heroes.entity.Image;
@@ -27,6 +28,9 @@ public class ImageServiceImpl implements ImageService{
 	
 	@Autowired
 	HeroRepository heroRepository;
+	
+	@Autowired
+	HeroService heroService;
 
 	/*
 	 *Compresses image bytes before storing them in the db 
@@ -82,24 +86,28 @@ public class ImageServiceImpl implements ImageService{
 		}
 
 	@Override
-	public Integer postImageToHero(MultipartFile file, String heroId) throws IOException {
+	public ImageDTO postImageToHero(MultipartFile file, String heroId) throws IOException {
 		
-		Optional<Hero> hero = heroRepository.findById(Integer.parseInt(heroId));
+		Optional<Hero> optionalHero = heroRepository.findById(Integer.parseInt(heroId));
+		Hero hero = Hero.setEntityFromOptional(optionalHero);
 		
 		Image image = new Image(file.getOriginalFilename(), file.getContentType(), compressBytes(file.getBytes()));
-		image.setHero(hero.get());
+		hero.setProfilePicture(image);
+		image.setHero(hero);
 		Image postedImage = imageRepository.save(image);
-		return postedImage.getId();
-	}
-	@Override
-	public Integer postImageToHeroTest(ImageDTO imageDTO, Integer heroId) throws IOException {
+
+		hero.setProfilePicture(postedImage);
 		
-		Optional<Hero> hero = heroRepository.findById(heroId);
+		HeroDTO heroDTO = HeroDTO.setDTO(hero);
+
+		ImageDTO imageDTO = ImageDTO.setDTO(postedImage);
+		imageDTO.setPicByte(decompressBytes(postedImage.getPicByte()));
+		imageDTO.setId(postedImage.getId());
 		
-		Image image = new Image(imageDTO.getName(), imageDTO.getType(), compressBytes(imageDTO.getPicByte()));
-		image.setHero(hero.get());
-		Image postedImage = imageRepository.save(image);
-		return postedImage.getId();
+		heroDTO.setProfilePicture(imageDTO);
+		
+		heroService.updateHero(heroDTO.getId(), heroDTO);
+		return imageDTO;
 	}
 
 	@Override

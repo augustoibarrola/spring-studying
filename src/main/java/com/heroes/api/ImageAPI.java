@@ -37,10 +37,10 @@ public class ImageAPI {
 	}
 	
 	@PostMapping(value = "/{heroId}/images")
-	public ResponseEntity<Integer> uploadImageToHero(@PathVariable("heroId") String heroId, @RequestParam("imageFile") MultipartFile file) throws IOException {
+	public ResponseEntity<ImageDTO> uploadImageToHero(@PathVariable("heroId") String heroId, @RequestParam("imageFile") MultipartFile file) throws IOException {
 		
-		Integer postedImageId = imageService.postImageToHero(file, heroId);
-		return new ResponseEntity<Integer> (postedImageId, HttpStatus.CREATED);
+		ImageDTO postedImage = imageService.postImageToHero(file, heroId);
+		return new ResponseEntity<ImageDTO> (postedImage, HttpStatus.CREATED);
 	}
 	
 	
