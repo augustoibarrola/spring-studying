@@ -77,7 +77,7 @@ public class HeroesAPI {
 	public ResponseEntity<String> deleteHero(@PathVariable String id){
 		heroService.deleteHero(Integer.parseInt(id));
 		String successMessage = "Hero Successfully Deleted";
-		return new ResponseEntity<String>(successMessage, HttpStatus.OK);
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 
 }

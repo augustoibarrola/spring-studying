@@ -55,6 +55,7 @@ public class Hero {
 
 			ImageDTO imageDTO = ImageDTO.setDTO(image);
 			imageDTO.setPicByte(ImageServiceImpl.decompressBytes(image.getPicByte()));
+			imageDTO.setId(image.getId());
 		
 			return imageDTO;
 	}

@@ -37,6 +37,10 @@ public class HeroServiceImpl implements HeroService {
 		List<HeroDTO> heroesDTO = new ArrayList<>();
 		for (Hero hero : heroes) {
 			HeroDTO heroDTO = HeroDTO.setDTO(hero);
+			if(hero.getProfilePicture()!=null) {
+				ImageDTO profilePicture = hero.getProfilePictureDTO(hero.getProfilePicture());
+				heroDTO.setProfilePicture(profilePicture);
+			}
 			heroesDTO.add(heroDTO);
 		}
 
