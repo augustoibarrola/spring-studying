@@ -45,7 +45,7 @@ public class Hero {
 	private Image profilePicture;
 	
 	public Image getProfilePicture() {
-		return profilePicture;
+		return this.profilePicture;
 	}
 	public void setProfilePicture(Image profilePicture) {
 		this.profilePicture = profilePicture;
@@ -118,6 +118,7 @@ public class Hero {
 		hero.setSuperpower(optionalHero.get().getSuperpower());
 		hero.setWeakness(optionalHero.get().getWeakness());	
 		hero.setDescription(optionalHero.get().getDescription());
+		
 		return hero;
 	}
 	

@@ -19,7 +19,7 @@ public class HeroDTO {
 	private ImageDTO profilePicture;
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -27,7 +27,7 @@ public class HeroDTO {
 	}
 
 	public ImageDTO getProfilePicture() {
-		return profilePicture;
+		return this.profilePicture;
 	}
 
 	public void setProfilePicture(ImageDTO images) {
@@ -35,7 +35,7 @@ public class HeroDTO {
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Integer id) {
@@ -43,7 +43,7 @@ public class HeroDTO {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -51,7 +51,7 @@ public class HeroDTO {
 	}
 
 	public String getAlias() {
-		return alias;
+		return this.alias;
 	}
 
 	public void setAlias(String alias) {
@@ -59,7 +59,7 @@ public class HeroDTO {
 	}
 
 	public String getSuperpower() {
-		return superpower;
+		return this.superpower;
 	}
 
 	public void setSuperpower(String superpower) {
@@ -67,7 +67,7 @@ public class HeroDTO {
 	}
 
 	public String getWeakness() {
-		return weakness;
+		return this.weakness;
 	}
 
 	public void setWeakness(String weakness) {

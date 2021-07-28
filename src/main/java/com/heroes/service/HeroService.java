@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.heroes.dto.HeroDTO;
+import com.heroes.dto.ImageDTO;
+import com.heroes.entity.Image;
 
 public interface HeroService {
 	
@@ -15,6 +17,8 @@ public interface HeroService {
 
 		
 	HeroDTO updateHero(Integer heroId, HeroDTO heroDTO) throws IOException;
+
+	void postImageToHero(Image image, String heroId) throws IOException;
 	
 	void deleteHero(Integer heroId);
 

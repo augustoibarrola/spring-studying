@@ -50,6 +50,17 @@ public class HeroServiceImpl implements HeroService {
 		Hero hero = Hero.setEntityFromOptional(optionalHero);
 		HeroDTO heroDTO = HeroDTO.setDTO(hero);
 		
+		if(optionalHero.get().getProfilePicture() !=null) {
+			
+			Image heroProfilePicture = optionalHero.get().getProfilePicture();
+			ImageDTO heroProfilePictureDTO = ImageDTO.setDTO(heroProfilePicture);
+			heroProfilePictureDTO.setPicByte(ImageServiceImpl.decompressBytes(heroProfilePicture.getPicByte()));
+			heroProfilePictureDTO.setId(heroProfilePicture.getId());
+			
+			heroDTO.setProfilePicture(heroProfilePictureDTO);
+		}
+		
+				
 		return heroDTO;
 		
 	}
@@ -73,6 +84,78 @@ public class HeroServiceImpl implements HeroService {
 		hero.setSuperpower(heroDTO.getSuperpower());
 		hero.setWeakness(heroDTO.getWeakness());
 		hero.setDescription(heroDTO.getDescription());
+		
+//		System.out.println(optionalHero.get().getProfilePicture());
+		if(optionalHero.get().getProfilePicture() == null && heroDTO.getProfilePicture() !=null) {
+			System.out.println("THERE IS NO PROFILEPICTURE IN DB BUT A NEW ONE IS BEING UPLOADED");
+
+			/*
+			 * if there is no profile picture already 
+			 * AND
+			 * a new one is being uploaded 
+			 * */
+			ImageDTO heroProfilePictureDTO = heroDTO.getProfilePicture();
+			Image heroProfilePicture = Image.setImage(heroProfilePictureDTO);
+			hero.setProfilePicture(heroProfilePicture);
+			
+			heroDTO.setProfilePicture(heroProfilePictureDTO);
+//			heroRepository.save(hero);
+			
+			
+		} else if(optionalHero.get().getProfilePicture() == null && heroDTO.getProfilePicture() == null) {
+			/*
+			 * if there is no profile picture already 
+			 * AND
+			 * a new one has not been uploaded 
+			 * */
+			System.out.println("no profilepicture already stored and no new one submitted");
+//			heroRepository.save(hero);
+
+		} else if(optionalHero.get().getProfilePicture() != null && heroDTO.getProfilePicture() == null) {
+			System.out.println("THERE IS A PROFILEPICTURE IN DB ALREADY AND A NEW ONE HAS NOT BEEN UPLOADED");
+			/*
+			 * if there is a profile picture already present 
+			 * AND
+			 * a new one has not been uploaded 
+			 * */
+			Image heroProfilePicture = optionalHero.get().getProfilePicture();
+			hero.setProfilePicture(heroProfilePicture);
+			
+			ImageDTO heroProfilePictureDTO = ImageDTO.setDTO(heroProfilePicture);
+			heroProfilePictureDTO.setPicByte(ImageServiceImpl.decompressBytes(heroProfilePicture.getPicByte()));
+			heroProfilePictureDTO.setId(heroProfilePicture.getId());
+			heroDTO.setProfilePicture(heroProfilePictureDTO);
+//			heroRepository.save(hero);
+						
+		} else if(optionalHero.get().getProfilePicture() != null && heroDTO.getProfilePicture() != null) {
+			System.out.println("THERE IS A PROFILEPICTURE IN DB ALREADY AND A NEW ONE IS BEING UPLOADED");
+			/*
+			 * if there is a profile picture already present 
+			 * AND
+			 * a new one is being uploaded 
+			 * */
+			Image heroProfilePicture = optionalHero.get().getProfilePicture();
+			hero.setProfilePicture(heroProfilePicture);
+			
+			ImageDTO heroProfilePictureDTO = heroDTO.getProfilePicture();
+			heroDTO.setProfilePicture(heroProfilePictureDTO);
+//			ImageDTO heroProfilePictureDTO = heroDTO.getProfilePicture();
+//			
+//			
+//			System.out.println(heroDTO.getProfilePicture());
+//
+//			
+//			Image heroProfilePicture = Image.setImage(heroProfilePictureDTO);  
+//			hero.setProfilePicture(heroProfilePicture);
+//			
+//			Hero savedHero = heroRepository.save(hero);
+//
+//			
+//			heroProfilePictureDTO.setPicByte(ImageServiceImpl.decompressBytes(savedHero.getProfilePicture().getPicByte()));
+//			heroProfilePictureDTO.setId(savedHero.getProfilePicture().getId());
+//			heroDTO.setProfilePicture(heroProfilePictureDTO);
+//						
+		} 
 
 		heroRepository.save(hero);
 
@@ -83,6 +166,18 @@ public class HeroServiceImpl implements HeroService {
 	@Override
 	public void deleteHero(Integer heroId){
 		heroRepository.deleteById(heroId);
+	}
+
+	@Override
+	public void postImageToHero(Image image, String heroId) throws IOException {
+
+		Optional<Hero> optionalHero = heroRepository.findById(Integer.parseInt(heroId));
+		Hero hero = Hero.setEntityFromOptional(optionalHero);
+//		System.out.println(image);
+		hero.setProfilePicture(image);
+		
+		heroRepository.save(hero);
+		
 	}
 
 }

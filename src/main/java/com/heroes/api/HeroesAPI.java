@@ -67,6 +67,7 @@ public class HeroesAPI {
 	public ResponseEntity<HeroDTO> updateHero(@PathVariable("id") String id, @RequestBody HeroDTO heroDTO) throws NumberFormatException, IOException{
 
 		HeroDTO updatedHero = heroService.updateHero(Integer.parseInt(id), heroDTO);
+//		System.out.println(heroDTO.getProfilePicture());
 		
 		return new ResponseEntity<HeroDTO>(updatedHero, HttpStatus.OK);
 		

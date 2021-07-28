@@ -15,4 +15,5 @@ public interface ImageService {
 //	public Image postImageToHeroTest(ImageDTO imageDTO, Integer heroId) throws IOException;
 
 	ImageDTO getImage(String imageId);
+
 }

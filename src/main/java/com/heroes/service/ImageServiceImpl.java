@@ -98,6 +98,8 @@ public class ImageServiceImpl implements ImageService{
 
 		hero.setProfilePicture(postedImage);
 		
+		heroRepository.save(hero);		
+		
 		HeroDTO heroDTO = HeroDTO.setDTO(hero);
 
 		ImageDTO imageDTO = ImageDTO.setDTO(postedImage);
@@ -106,7 +108,8 @@ public class ImageServiceImpl implements ImageService{
 		
 		heroDTO.setProfilePicture(imageDTO);
 		
-		heroService.updateHero(heroDTO.getId(), heroDTO);
+//		heroService.updateHero(heroDTO.getId(), heroDTO);
+		heroService.postImageToHero(postedImage, heroId);
 		return imageDTO;
 	}
 
