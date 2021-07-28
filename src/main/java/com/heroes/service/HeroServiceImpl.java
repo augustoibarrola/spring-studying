@@ -169,7 +169,10 @@ public class HeroServiceImpl implements HeroService {
 	
 	@Override
 	public void deleteHero(Integer heroId){
-		heroRepository.deleteById(heroId);
+		Optional<Hero> optionalHero = heroRepository.findById(heroId);
+		Hero hero = Hero.setEntityFromOptional(optionalHero);
+		heroRepository.delete(hero);
+//		heroRepository.deleteById(heroId);
 	}
 
 	@Override
